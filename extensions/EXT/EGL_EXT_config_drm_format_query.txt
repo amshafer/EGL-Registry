@@ -1,0 +1,91 @@
+Name
+
+    EXT_config_drm_format_query
+
+Name Strings
+
+    EGL_EXT_config_drm_format_query
+
+Contributors
+
+Contacts
+
+    Austin Shafer,  NVIDIA  (ashafer 'at' nvidia.com)
+
+Status
+
+    Complete.
+
+Version
+
+    Version 1 - July 5th, 2022
+
+Number
+
+    EGL Extension #149
+
+Extension Type
+
+    EGL client extension
+
+Dependencies
+
+    Written based on the wording of the EGL 1.5 specification.
+
+    Requires EGL_EXT_image_dma_buf_import.
+
+    This extension inlcudes the enum EGL_LINUX_DRM_FOURCC_EXT as defined in
+    EGL_EXT_image_dma_buf_import.
+
+Overview
+
+    EGL_EXT_image_dma_buf_import introduced an attribute that allows specifying
+    pixel formats using constants from drm_fourcc.h. In some scenarios it is
+    desirable to find which of these DRM formats a given EGLConfig corresponds
+    to. For example, a Wayland EGL platform may wish to query which DRM format
+    the underlying EGL driver is using for a particular EGLConfig.
+
+    This extension allows passing EGL_LINUX_DRM_FOURCC_EXT to
+    eglGetConfigAttrib, allowing the driver to return the appropriate format
+    code.
+
+New Types
+
+    None
+
+New Functions
+
+    None
+
+New Tokens
+
+    Accepted as an attribute in the <attribute> parameter of
+    eglGetConfigAttrib:
+
+    EGL_LINUX_DRM_FOURCC_EXT                        0x3271
+
+Changes in section 3.4.3 "Querying Configuration Attributes"
+
+    Add EGL_LINUX_DRM_FOURCC_EXT to the attributes accepted by
+    eglGetConfigAttrib.
+
+Add to the list of errors in section 3.4.3 "Querying Configuration Attributes"
+
+    If EGL_LINUX_DRM_FOURCC_EXT is the attribute being requested and the
+    EGLConfig does not have a corresponding DRM format, then EGL_BAD_MATCH is
+    generated
+
+Issues
+
+    1. Should EGL_LINUX_DRM_FOURCC_EXT be usable as an attribute in eglChooseConfig?
+
+    RESOLVED: No, eglChooseConfig should ignore EGL_LINUX_DRM_FOURCC_EXT. We can't
+    appropriately handle EGL_DONT_CARE due to possible collisions with DRM format
+    values. Currently there is no DRM format that aliases with EGL_DONT_CARE, but
+    there is no guarantee that it cannot happen in the future.
+
+Revision History
+
+    #1 (July 5th, 2022) Austin Shafer
+
+        - Initial draft
