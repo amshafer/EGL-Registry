@@ -32,8 +32,6 @@ Dependencies
 
     Written based on the wording of the EGL 1.5 specification.
 
-    Requires EGL_EXT_image_dma_buf_import.
-
     This extension inlcudes the enum EGL_LINUX_DRM_FOURCC_EXT as defined in
     EGL_EXT_image_dma_buf_import.
 
@@ -43,11 +41,13 @@ Overview
     pixel formats using constants from drm_fourcc.h. In some scenarios it is
     desirable to find which of these DRM formats a given EGLConfig corresponds
     to. For example, a Wayland EGL platform may wish to query which DRM format
-    the underlying EGL driver is using for a particular EGLConfig.
+    the underlying EGL driver is using for a particular EGLConfig. It may
+    need to know the DRM format so that it can find supported modifiers for
+    that format to pass to an EGLStream consumer.
 
     This extension allows passing EGL_LINUX_DRM_FOURCC_EXT to
-    eglGetConfigAttrib, allowing the driver to return the appropriate format
-    code.
+    eglGetConfigAttrib, allowing the application to forward the format code
+    as needed.
 
 New Types
 
@@ -69,11 +69,15 @@ Changes in section 3.4.3 "Querying Configuration Attributes"
     Add EGL_LINUX_DRM_FOURCC_EXT to the attributes accepted by
     eglGetConfigAttrib.
 
-Add to the list of errors in section 3.4.3 "Querying Configuration Attributes"
-
     If EGL_LINUX_DRM_FOURCC_EXT is the attribute being requested and the
-    EGLConfig does not have a corresponding DRM format, then EGL_BAD_MATCH is
-    generated
+    EGLConfig does not have a corresponding DRM format, then DRM_FORMAT_INVALID
+    is returned.
+
+Changes in section 3.4.1 "Querying Configurations"
+
+    If EGL_LINUX_DRM_FOURCC_EXT is specified as an attribute in the attrib_list
+    argument of eglChooseConfig, then it will be ignored when choosing a
+    config.
 
 Issues
 
