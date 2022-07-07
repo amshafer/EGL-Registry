@@ -67,9 +67,8 @@ New Tokens
 Changes in section 3.4.3 "Querying Configuration Attributes"
 
     Add EGL_LINUX_DRM_FOURCC_EXT to the attributes accepted by
-    eglGetConfigAttrib. EGL_LINUX_DRM_FOURCC_EXT was introduced by
-    EGL_EXT_image_dma_buf_import and specifices a DRM format code as declared
-    in the Linux drm_fourcc.h header.
+    eglGetConfigAttrib. EGL_LINUX_DRM_FOURCC_EXT specifices a DRM format code
+    as declared in the Linux drm_fourcc.h header.
 
     If EGL_LINUX_DRM_FOURCC_EXT is the attribute being requested and the
     EGLConfig does not have a corresponding DRM format, then DRM_FORMAT_INVALID
