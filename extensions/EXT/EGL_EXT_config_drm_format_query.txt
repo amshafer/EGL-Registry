@@ -37,13 +37,13 @@ Dependencies
 
 Overview
 
-    EGL_EXT_image_dma_buf_import introduced an attribute that allows specifying
-    pixel formats using constants from drm_fourcc.h. In some scenarios it is
-    desirable to find which of these DRM formats a given EGLConfig corresponds
-    to. For example, a Wayland EGL platform may wish to query which DRM format
-    the underlying EGL driver is using for a particular EGLConfig. It may
-    need to know the DRM format so that it can find supported modifiers for
-    that format to pass to an EGLStream consumer.
+    This extension adds an EGLConfig attribute that specifies a DRM format, as
+    defined in drm_fourcc.h. If an application needs to share buffers with
+    other libraries or processes that require specific formats, then this
+    allows an application to select a matching EGLConfig accordingly.
+    EGLStream applications may need to know what DRM format a surface is using
+    so that they can pass the format and any modifiers to other APIs or other
+    stream consumers.
 
     This extension allows passing EGL_LINUX_DRM_FOURCC_EXT to
     eglGetConfigAttrib, allowing the application to forward the format code
@@ -67,7 +67,9 @@ New Tokens
 Changes in section 3.4.3 "Querying Configuration Attributes"
 
     Add EGL_LINUX_DRM_FOURCC_EXT to the attributes accepted by
-    eglGetConfigAttrib.
+    eglGetConfigAttrib. EGL_LINUX_DRM_FOURCC_EXT was introduced by
+    EGL_EXT_image_dma_buf_import and specifices a DRM format code as declared
+    in the Linux drm_fourcc.h header.
 
     If EGL_LINUX_DRM_FOURCC_EXT is the attribute being requested and the
     EGLConfig does not have a corresponding DRM format, then DRM_FORMAT_INVALID
